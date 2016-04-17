@@ -1,0 +1,2 @@
+# ips4-admin-login-bg
+Admin Login Background by IPS Themes adds the ability to select your own background image on the IPS Suite 4.0 administrator login page. Set a default image for all visitors of the login page or allow visitors to select from a series of images. Selections are saved in a cookie so all future visits will show the selected background.

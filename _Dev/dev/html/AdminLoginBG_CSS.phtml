@@ -1,0 +1,105 @@
+<ips:template parameters="" />
+{{if !isset( \IPS\Request::i()->cookie['ipsthemesAdminLoginBG'])}}
+	body#elLogin {
+		background: url({setting="ipsthemesAdminLoginBG_default"}) no-repeat;
+		background-size: cover;
+		background-attachment: fixed;
+	}
+{{else}}
+	{{$img = \IPS\Request::i()->cookie['ipsthemesAdminLoginBG'];}}
+	body#elLogin {
+		background: url({$img}) no-repeat;
+		background-size: cover;
+		background-attachment: fixed;
+	}
+{{endif}}
+
+{{foreach explode(',',\IPS\Settings::i()->ipsthemesAdminLoginBG_images) as $key => $img}}
+	body#elLogin[data-bg-img="{$img}"] {
+		background: url({$img}) no-repeat;
+		background-size: cover;
+		background-attachment: fixed;
+	}		
+	body#elLogin[data-bg-img="{$img}"] #ipsAdminLoginBGTrigger_dialog img[data-url="{$img}"] {
+		opacity: 1;
+	}	
+{{endforeach}}
+
+/* Temporarily moving this here due to a bug with plugin system not compiling CSS on admin login screen */
+#ipsAdminLoginBGTrigger {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	z-index: 9;
+	padding: 6px 15px;
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	border-radius: 25px;
+	-webkit-transition: background 100ms ease-in;
+	transition: background 100ms ease-in;
+}
+
+	#ipsAdminLoginBGTrigger:hover {
+		background: #963043;
+	}
+
+	@media (max-width: 768px) {
+		#ipsAdminLoginBGTrigger {
+			top: 0;
+			right: 0;
+			padding: 4px 15px;
+			border-radius: 0 0 0 4px;
+		}
+	}
+
+#ipsAdminLoginBG .ipsFieldRow {
+	margin-top: 15px;
+}
+
+.ipsAdminLoginBGGrid li {
+	cursor: pointer;
+	margin-bottom: 0 !important;
+}
+
+	@media (max-width: 768px) {
+		.ipsAdminLoginBGGrid li {
+			width: 45% !important;
+			margin-left: 4% !important;
+			text-align: center;
+			margin-bottom: 15px !important;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.ipsAdminLoginBGGrid li {
+			width: 45% !important;
+			margin-left: 4% !important;
+			text-align: center;
+			margin-bottom: 15px !important;
+		}
+	}
+
+	.ipsAdminLoginBGGrid img {
+		width: 100%;
+		height: 100px;
+		opacity: .7;
+		border-radius: 4px;
+		-webkit-transition: opacity 100ms ease-in;
+		transition: opacity 100ms ease-in;
+	}
+
+		@media (max-width: 768px) {
+			.ipsAdminLoginBGGrid img {
+				height: 120px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.ipsAdminLoginBGGrid img {
+				height: 100px;
+			}
+		}
+
+	.ipsAdminLoginBGGrid li:hover img {
+		opacity: .9;
+	}

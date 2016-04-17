@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin name="Admin Login Background by IPS Themes" version_long="10002" version_human="1.0.2" author="Tom Christian" website="http://ipsthemes.com" update_check="http://ipsthemes.com/ips4-update-check.php?type=plugin&amp;name=Admin%20Login%20Background"><hooks><hook type="S" class="\IPS\Theme\class_core_admin_system"><![CDATA[//<?php
+
+class hook98 extends _HOOK_CLASS_
+{
+
+/* !Hook Data - DO NOT REMOVE */
+public static function hookData() {
+ return array_merge_recursive( array (
+  'login' => 
+  array (
+    0 => 
+    array (
+      'selector' => '#elLogin_box',
+      'type' => 'add_before',
+      'content' => '{{if \IPS\Settings::i()->ipsthemesAdminLoginBG_allow}}
+  <div id=\'ipsAdminLoginBG\' class=\'ipsHide ipsPad\'>
+      {{$images = explode(\',\',\IPS\Settings::i()->ipsthemesAdminLoginBG_images);}}
+      {{$numCols = count($images);}}
+      {{if 12 % $numCols == 0}}
+          {{$ipsCol = 12 / $numCols;}}
+      {{else}}
+          {{$ipsCol = floor(12 / $numCols);}}
+      {{endif}}	
+      <ul class="ipsAdminLoginBGGrid ipsGrid {{if 12 % $numCols !== 0}}ipsGrid_odd{$numCols}{{endif}}" data-controller="plugins.ipsthemesAdminLoginBG">
+          {{if count($images) > 0}}
+            {{foreach $images as $key => $img}}
+                <li class="ipsGrid ipsGrid_span{$ipsCol}">
+                    <img data-action="loadIMG" data-url="{$img}" class="img" src="{$img}" />
+                </li>
+            {{endforeach}}
+    	  {{else}}
+          	<p class="ipsMessage ipsMessage_info">{lang="ipsthemesAdminLoginBG_noimages"}</p>
+          {{endif}}
+
+      </ul>
+      <div class="ipsFieldRow ipsClearfix">
+        <button data-action="resetIMG" type="submit" class="ipsButton ipsButton_negative ipsPos_right" role="button">{lang="ipsthemesAdminLoginBG_reset"}</button>
+      </div>
+  </div>
+
+  <a href=\'#ipsAdminLoginBG\' id=\'ipsAdminLoginBGTrigger\' data-ipsTooltip title=\'{lang="ipsthemesAdminLoginBG_desc"}\' data-ipsDialog data-ipsDialog-title="{lang="ipsthemesAdminLoginBG_title"}" data-ipsDialog-content="#ipsAdminLoginBG">
+      <i class=\'fa fa-pencil\'></i> {lang="ipsthemesAdminLoginBG_edit"}
+  </a>
+{{endif}}',
+    ),
+    1 => 
+    array (
+      'selector' => 'html > head',
+      'type' => 'add_inside_end',
+      'content' => '<style>
+{template="AdminLoginBG_CSS" group="plugins" location="global" app="core"}
+</style>
+
+{{$bgIMG = isset(\IPS\Request::i()->cookie[\'ipsthemesAdminLoginBG\']) ? \IPS\Request::i()->cookie[\'ipsthemesAdminLoginBG\'] : "";}}',
+    ),
+  ),
+), parent::hookData() );
+}
+/* End Hook Data */
+
+
+
+
+
+
+
+
+
+
+}]]></hook></hooks><settings><setting><key>ipsthemesAdminLoginBG_default</key><default/></setting><setting><key>ipsthemesAdminLoginBG_images</key><default/></setting><setting><key>ipsthemesAdminLoginBG_allow</key><default>1</default></setting></settings><settingsCode><![CDATA[//<?php
+
+$form->addHeader('ipsthemesAdminLoginBG_bgSettings');
+
+/* Default Image */
+$form->add( new \IPS\Helpers\Form\Upload( 'ipsthemesAdminLoginBG_default', \IPS\File::get( 'core_Theme', \IPS\Settings::i()->ipsthemesAdminLoginBG_default ), FALSE, array( 'storageExtension' => 'core_Theme', 'multiple' => false, 'image' => TRUE ), NULL, NULL, NULL, 'ipsthemesAdminLoginBG_default' ) );
+
+/* Allow */
+$form->add( new \IPS\Helpers\Form\YesNo( 'ipsthemesAdminLoginBG_allow', \IPS\Settings::i()->ipsthemesAdminLoginBG_allow, FALSE, array( 'togglesOn' => array('ipsthemesAdminLoginBG_images') ) ) );
+
+/* Image Options */
+$images = array();
+foreach(explode(',', \IPS\Settings::i()->ipsthemesAdminLoginBG_images ) as $key) {
+    $images[] = \IPS\File::get( 'core_Theme', $key );
+}
+$form->add( new \IPS\Helpers\Form\Upload( 'ipsthemesAdminLoginBG_images', isset($images) ? $images : null, FALSE, array( 'storageExtension' => 'core_Theme', 'multiple' => true, 'image' => TRUE ), NULL, NULL, NULL, 'ipsthemesAdminLoginBG_images' ) );
+
+
+if ( $values = $form->values() )
+{
+	$form->saveAsSettings();
+	return TRUE;
+}
+
+return $form;]]></settingsCode><tasks/><widgets/><htmlFiles><html filename="AdminLoginBG_CSS.phtml">PGlwczp0ZW1wbGF0ZSBwYXJhbWV0ZXJzPSIiIC8+Cnt7aWYgIWlzc2V0KCBcSVBTXFJlcXVlc3Q6OmkoKS0+Y29va2llWydpcHN0aGVtZXNBZG1pbkxvZ2luQkcnXSl9fQoJYm9keSNlbExvZ2luIHsKCQliYWNrZ3JvdW5kOiB1cmwoe3NldHRpbmc9Imlwc3RoZW1lc0FkbWluTG9naW5CR19kZWZhdWx0In0pIG5vLXJlcGVhdDsKCQliYWNrZ3JvdW5kLXNpemU6IGNvdmVyOwoJCWJhY2tncm91bmQtYXR0YWNobWVudDogZml4ZWQ7Cgl9Cnt7ZWxzZX19Cgl7eyRpbWcgPSBcSVBTXFJlcXVlc3Q6OmkoKS0+Y29va2llWydpcHN0aGVtZXNBZG1pbkxvZ2luQkcnXTt9fQoJYm9keSNlbExvZ2luIHsKCQliYWNrZ3JvdW5kOiB1cmwoeyRpbWd9KSBuby1yZXBlYXQ7CgkJYmFja2dyb3VuZC1zaXplOiBjb3ZlcjsKCQliYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGZpeGVkOwoJfQp7e2VuZGlmfX0KCnt7Zm9yZWFjaCBleHBsb2RlKCcsJyxcSVBTXFNldHRpbmdzOjppKCktPmlwc3RoZW1lc0FkbWluTG9naW5CR19pbWFnZXMpIGFzICRrZXkgPT4gJGltZ319Cglib2R5I2VsTG9naW5bZGF0YS1iZy1pbWc9InskaW1nfSJdIHsKCQliYWNrZ3JvdW5kOiB1cmwoeyRpbWd9KSBuby1yZXBlYXQ7CgkJYmFja2dyb3VuZC1zaXplOiBjb3ZlcjsKCQliYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IGZpeGVkOwoJfQkJCglib2R5I2VsTG9naW5bZGF0YS1iZy1pbWc9InskaW1nfSJdICNpcHNBZG1pbkxvZ2luQkdUcmlnZ2VyX2RpYWxvZyBpbWdbZGF0YS11cmw9InskaW1nfSJdIHsKCQlvcGFjaXR5OiAxOwoJfQkKe3tlbmRmb3JlYWNofX0KCi8qIFRlbXBvcmFyaWx5IG1vdmluZyB0aGlzIGhlcmUgZHVlIHRvIGEgYnVnIHdpdGggcGx1Z2luIHN5c3RlbSBub3QgY29tcGlsaW5nIENTUyBvbiBhZG1pbiBsb2dpbiBzY3JlZW4gKi8KI2lwc0FkbWluTG9naW5CR1RyaWdnZXIgewoJcG9zaXRpb246IGZpeGVkOwoJdG9wOiAxNXB4OwoJcmlnaHQ6IDE1cHg7Cgl6LWluZGV4OiA5OwoJcGFkZGluZzogNnB4IDE1cHg7CgliYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIDAuOCk7Cgljb2xvcjogd2hpdGU7Cglib3JkZXItcmFkaXVzOiAyNXB4OwoJLXdlYmtpdC10cmFuc2l0aW9uOiBiYWNrZ3JvdW5kIDEwMG1zIGVhc2UtaW47Cgl0cmFuc2l0aW9uOiBiYWNrZ3JvdW5kIDEwMG1zIGVhc2UtaW47Cn0KCgkjaXBzQWRtaW5Mb2dpbkJHVHJpZ2dlcjpob3ZlciB7CgkJYmFja2dyb3VuZDogIzk2MzA0MzsKCX0KCglAbWVkaWEgKG1heC13aWR0aDogNzY4cHgpIHsKCQkjaXBzQWRtaW5Mb2dpbkJHVHJpZ2dlciB7CgkJCXRvcDogMDsKCQkJcmlnaHQ6IDA7CgkJCXBhZGRpbmc6IDRweCAxNXB4OwoJCQlib3JkZXItcmFkaXVzOiAwIDAgMCA0cHg7CgkJfQoJfQoKI2lwc0FkbWluTG9naW5CRyAuaXBzRmllbGRSb3cgewoJbWFyZ2luLXRvcDogMTVweDsKfQoKLmlwc0FkbWluTG9naW5CR0dyaWQgbGkgewoJY3Vyc29yOiBwb2ludGVyOwoJbWFyZ2luLWJvdHRvbTogMCAhaW1wb3J0YW50Owp9CgoJQG1lZGlhIChtYXgtd2lkdGg6IDc2OHB4KSB7CgkJLmlwc0FkbWluTG9naW5CR0dyaWQgbGkgewoJCQl3aWR0aDogNDUlICFpbXBvcnRhbnQ7CgkJCW1hcmdpbi1sZWZ0OiA0JSAhaW1wb3J0YW50OwoJCQl0ZXh0LWFsaWduOiBjZW50ZXI7CgkJCW1hcmdpbi1ib3R0b206IDE1cHggIWltcG9ydGFudDsKCQl9Cgl9CgoJQG1lZGlhIChtYXgtd2lkdGg6IDQ4MHB4KSB7CgkJLmlwc0FkbWluTG9naW5CR0dyaWQgbGkgewoJCQl3aWR0aDogNDUlICFpbXBvcnRhbnQ7CgkJCW1hcmdpbi1sZWZ0OiA0JSAhaW1wb3J0YW50OwoJCQl0ZXh0LWFsaWduOiBjZW50ZXI7CgkJCW1hcmdpbi1ib3R0b206IDE1cHggIWltcG9ydGFudDsKCQl9Cgl9CgoJLmlwc0FkbWluTG9naW5CR0dyaWQgaW1nIHsKCQl3aWR0aDogMTAwJTsKCQloZWlnaHQ6IDEwMHB4OwoJCW9wYWNpdHk6IC43OwoJCWJvcmRlci1yYWRpdXM6IDRweDsKCQktd2Via2l0LXRyYW5zaXRpb246IG9wYWNpdHkgMTAwbXMgZWFzZS1pbjsKCQl0cmFuc2l0aW9uOiBvcGFjaXR5IDEwMG1zIGVhc2UtaW47Cgl9CgoJCUBtZWRpYSAobWF4LXdpZHRoOiA3NjhweCkgewoJCQkuaXBzQWRtaW5Mb2dpbkJHR3JpZCBpbWcgewoJCQkJaGVpZ2h0OiAxMjBweDsKCQkJfQoJCX0KCgkJQG1lZGlhIChtYXgtd2lkdGg6IDQ4MHB4KSB7CgkJCS5pcHNBZG1pbkxvZ2luQkdHcmlkIGltZyB7CgkJCQloZWlnaHQ6IDEwMHB4OwoJCQl9CgkJfQoKCS5pcHNBZG1pbkxvZ2luQkdHcmlkIGxpOmhvdmVyIGltZyB7CgkJb3BhY2l0eTogLjk7Cgl9</html></htmlFiles><cssFiles/><jsFiles><js filename="adminloginbackground.js">OyggZnVuY3Rpb24oJCwgXywgdW5kZWZpbmVkKXsKICAgICJ1c2Ugc3RyaWN0IjsKCiAgICBpcHMuY29udHJvbGxlci5yZWdpc3RlcigncGx1Z2lucy5pcHN0aGVtZXNBZG1pbkxvZ2luQkcnLCB7CiAgICAgICAgaW5pdGlhbGl6ZTogZnVuY3Rpb24gKCkgewogICAgICAgICAgICB0aGlzLm9uKCBkb2N1bWVudCwgJ2NsaWNrJywgJ1tkYXRhLWFjdGlvbj0ibG9hZElNRyJdJywgdGhpcy5sb2FkICk7CiAgICAgICAgICAgIHRoaXMub24oIGRvY3VtZW50LCAnY2xpY2snLCAnW2RhdGEtYWN0aW9uPSJyZXNldElNRyJdJywgdGhpcy5yZXNldCApOwogICAgICAgIH0sCgogICAgICAgIGxvYWQ6IGZ1bmN0aW9uIChlKSB7CiAgICAgICAgCXZhciBpbWdVUkwgPSAkKGUuY3VycmVudFRhcmdldCkuZGF0YSgndXJsJyksCiAgICAgICAgICAgICAgICBjb29raWUgPSBpcHMudXRpbHMuY29va2llLmdldCgnaXBzdGhlbWVzQWRtaW5Mb2dpbkJHJyk7CiAgICAgICAgICAgIGlmICh0eXBlb2YgY29va2llICE9PSAndW5kZWZpbmVkJykgewogICAgICAgICAgICAgICAgJCgnYm9keScpLmF0dHIoJ2RhdGEtYmctaW1nJyxpbWdVUkwpLnJlbW92ZUF0dHIoJ3N0eWxlJyk7CiAgICAgICAgICAgICAgICBpcHMudXRpbHMuY29va2llLnNldCgnaXBzdGhlbWVzQWRtaW5Mb2dpbkJHJywgaW1nVVJMKTsKICAgICAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgICAgICQoJ2JvZHknKS5jc3MoJ2JhY2tncm91bmQnLCd1cmwoJytpbWdVUkwrJyknKTsKICAgICAgICAgICAgICAgIGlwcy51dGlscy5jb29raWUuc2V0KCdpcHN0aGVtZXNBZG1pbkxvZ2luQkcnLCBpbWdVUkwpOwogICAgICAgICAgICB9CiAgICAgICAgfSwKCiAgICAgICAgcmVzZXQ6IGZ1bmN0aW9uIChlKSB7CiAgICAgICAgICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgICAgICAgICAgaXBzLnV0aWxzLmNvb2tpZS51bnNldCgnaXBzdGhlbWVzQWRtaW5Mb2dpbkJHJyk7CiAgICAgICAgICAgIGxvY2F0aW9uLnJlbG9hZCgpOwogICAgICAgIH0KICAgIH0pOwoKfShqUXVlcnksIF8pKTsgIA==</js></jsFiles><resourcesFiles/><lang><word key="ipsthemesAdminLoginBG_edit" js="0">Edit</word><word key="ipsthemesAdminLoginBG_title" js="0">Admin Login Background</word><word key="ipsthemesAdminLoginBG_desc" js="0">Customize Background Image</word><word key="ipsthemesAdminLoginBG_noimages" js="0">There are currently no images to choose from. Please upload your images via the plugin settings.</word><word key="ipsthemesAdminLoginBG_reset" js="0">Reset</word><word key="ipsthemesAdminLoginBG_bgSettings" js="0">Admin Login Background Settings</word><word key="ipsthemesAdminLoginBG_default" js="0">Default image</word><word key="ipsthemesAdminLoginBG_allow" js="0">Allow image selection</word><word key="ipsthemesAdminLoginBG_images" js="0">Available images</word><word key="ipsthemesAdminLoginBG_images_desc" js="0">Images uploaded here will be selectable to all users and remembered for any future visits.</word></lang><versions><version long="10000" human="1.0.0"><![CDATA[//<?php
+
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Install Code
+ */
+class ips_plugins_setup_install
+{
+	/**
+	 * ...
+	 *
+	 * @return	array	If returns TRUE, upgrader will proceed to next step. If it returns any other value, it will set this as the value of the 'extra' GET parameter and rerun this step (useful for loops)
+	 */
+	public function step1()
+	{
+		
+
+		return TRUE;
+	}
+	
+	// You can create as many additional methods (step2, step3, etc.) as is necessary.
+	// Each step will be executed in a new HTTP request
+}]]></version><version long="10001" human="1.0.1"><![CDATA[//<?php
+
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * 1.0.1 Upgrade Code
+ */
+class ips_plugins_setup_upg_10001
+{
+	/**
+	 * ...
+	 *
+	 * @return	array	If returns TRUE, upgrader will proceed to next step. If it returns any other value, it will set this as the value of the 'extra' GET parameter and rerun this step (useful for loops)
+	 */
+	public function step1()
+	{
+		
+
+		return TRUE;
+	}
+	
+	// You can create as many additional methods (step2, step3, etc.) as is necessary.
+	// Each step will be executed in a new HTTP request
+}]]></version></versions></plugin>

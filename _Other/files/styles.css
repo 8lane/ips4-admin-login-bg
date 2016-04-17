@@ -1,0 +1,170 @@
+/************************************************************************/
+/* Documentation by Tom Christian			 	*/
+/************************************************************************/
+/* xenthemes.com / tomchristian.co.uk									*/
+/************************************************************************/
+
+/* RESET */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin:0; padding:0; } 
+table {	border-collapse:collapse; border-spacing:0; }
+fieldset,img { border:0; }
+address,caption,cite,code,dfn,th,var { font-style:normal; font-weight:normal; }
+ol,ul { list-style:none; }
+caption,th { text-align:left; }
+h1,h2,h3,h4,h5,h6 { font-size:100%;	font-weight:normal; }
+q:before,q:after { content:''; }
+abbr,acronym { border:0; }
+hr { display: none; }
+address{ display: inline; }
+.right { float: right; }
+.left { float: left; }
+.clear { clear: both; }
+.clearfix:after { content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+pre 		{ padding: 5px; font-family: courier; background: #f8f8f8; border: 1px solid #c9c9c9; overflow: auto; margin-left: 10px; font-size: 11px; line-height: 140%; }
+::selection { background: #963043; color: #FFF; }
+::-moz-selection { background: #963043; color: #FFF; }
+
+/************************************************************************/
+/* MAIN STYLES */
+html, body { 
+	background-color: #1c1f26;
+	color: #5a5a5a;
+}
+
+body {
+	color: #5a5a5a;
+	font: normal 13px helvetica, arial, sans-serif;
+	position: relative;
+}
+
+h2 { 
+	color: #1c1f26;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 0 10px;
+    padding-bottom: 17px;
+}
+
+h3 { 
+    font-size: 23px;
+    font-weight: bold;
+	font-family: trebuchet ms;
+    margin: 12px 0 11px;
+    color: #963043;
+}
+
+h3 em {
+	color: #963043;
+}
+
+h4 { 
+    border-bottom: 1px solid #ABABAB;
+    font-size: 23px;
+    font-weight: bold;
+    margin: 12px 0 11px;
+    padding-bottom: 14px;
+}
+
+p {
+	font-family: trebuchet ms;
+	font-size: 13px;
+	line-height: 24px;
+}
+
+.faq img {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px dotted #D1D1D1;
+    margin: 15px 0 15px 15px;
+    padding: 3px;
+}
+
+.row1 {
+    background: #F8F8F8;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    padding: 7px;
+    margin: 0 0 13px;
+}
+
+.row2 {
+    background: #F8F8F8;
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    padding: 7px;
+    margin: 0 0 13px;
+}
+
+.row1:hover, .row2:hover {
+	background: #f2f2f2;
+} 
+
+pre {
+    background: #222;
+    border: 3px solid #111;
+    color: #fff;
+    font-family: courier;
+    font-size: 11px;
+    line-height: 140%;
+    margin-left: 10px;
+    overflow: auto;
+    padding: 8px;	
+}
+
+h3, strong { font-weight: bold; }
+em { font-style: italic; }
+img, .input_check, .input_radio { vertical-align: middle; }
+legend { display: none; }
+table { width: 100%; }
+td { padding: 3px; }
+
+a {
+	color: #963043;
+	text-decoration: none;
+	outline: 0 none;
+	-moz-transition: all 500ms ease 0s;
+	-webkit-transition: all 500ms ease 0s;	
+}
+
+	a:hover { color: #bd3c54; }
+	
+/************************************************************************/
+/* LAYOUT */
+#content, .main_width {
+	margin: 0 auto;
+	/* Uncomment for fixed */
+	/*width: 980px;*/
+	/* Fluid */
+	width: 80% !important;
+   	min-width: 960px;
+}
+
+#content {
+	background: #fff;
+	padding: 15px;
+	line-height: 120%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	margin: 55px auto 15px;
+	border-radius: 6px;
+}
+
+.faq {
+	padding-top: 15px;
+}
+
+.faq_inner {
+	background: #FFFFFF;
+	border: 1px solid #ddd;
+	padding: 15px;
+	display: none;
+	margin: 20px 7px 10px;
+}
+
+.faq_toggle a {
+	color: #303641;
+}
+
+.footer { text-align: right; }
+.footer a { color: #888; }
+.footer a:hover { color: #fff; }
